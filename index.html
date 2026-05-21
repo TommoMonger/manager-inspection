@@ -4,322 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="mobile-web-app-capable" content="no">
+<meta name="apple-mobile-web-app-capable" content="no">
 <title>Pressed Earth — Manager Inspection</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&display=swap');
-
-  :root {
-    --green: #2d6a4f;
-    --green-light: #40916c;
-    --green-pale: #d8f3dc;
-    --amber: #e76f00;
-    --amber-pale: #fff3e0;
-    --red: #c0392b;
-    --red-pale: #fdecea;
-    --bg: #f7f5f0;
-    --surface: #ffffff;
-    --border: #d9d4c8;
-    --text: #1a1a1a;
-    --text-soft: #5a5a5a;
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
+  :root{
+    --green:#2d6a4f;--green-light:#40916c;--green-pale:#d8f3dc;
+    --amber:#e76f00;--amber-pale:#fff3e0;
+    --red:#c0392b;--red-pale:#fdecea;
+    --bg:#f7f5f0;--surface:#ffffff;--border:#d9d4c8;
+    --text:#1a1a1a;--text-soft:#5a5a5a;
+    --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    font-family: var(--sans);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0 0 80px 0;
-    touch-action: manipulation;
-  }
-
-  header {
-    background: var(--green);
-    color: white;
-    padding: 20px 24px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-
-  header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-  header p { font-size: 12px; opacity: 0.75; margin-top: 2px; font-family: var(--mono); }
-
-  .container { max-width: 640px; margin: 0 auto; padding: 20px 16px; }
-
-  .progress-strip {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--green-light); border-radius: 3px; transition: width 0.3s; width: 0%; }
-  .progress-label { font-family: var(--mono); font-size: 12px; color: var(--text-soft); white-space: nowrap; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-
-  .card h2 {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-soft);
-    margin-bottom: 14px;
-  }
-
-  .field-group { margin-bottom: 14px; }
-  .field-group:last-child { margin-bottom: 0; }
-
-  label.field-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-
-  select, input[type="date"], textarea {
-    width: 100%;
-    font-family: var(--sans);
-    font-size: 15px;
-    padding: 11px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg);
-    color: var(--text);
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
-  select:focus, input:focus, textarea:focus { border-color: var(--green-light); }
-  .select-wrap { position: relative; }
-  .select-wrap::after {
-    content: '▾';
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-soft);
-    pointer-events: none;
-  }
-
-  textarea { resize: vertical; min-height: 70px; }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0 6px;
-    border-bottom: 2px solid var(--border);
-    margin-bottom: 4px;
-  }
-
-  .col-daily { width: 64px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--green); font-family: var(--mono); }
-  .col-weekly { width: 64px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--amber); font-family: var(--mono); }
-  .col-name { flex: 1; }
-
-  .area-row { border-bottom: 1px solid #f0ece4; }
-  .area-row:last-child { border-bottom: none; }
-
-  .area-main {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 0;
-    min-height: 56px;
-  }
-
-  .area-name {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.3;
-  }
-
-  .area-num-tag {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-soft);
-    display: block;
-    margin-bottom: 1px;
-  }
-
-  .check-cell {
-    width: 64px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Pass/Fail as two separate tap targets */
-  .pf-toggle {
-    display: flex;
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    height: 40px;
-  }
-
-  .pf-btn {
-    width: 32px;
-    border: none;
-    background: white;
-    cursor: pointer;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #bbb;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    transition: background 0.12s, color 0.12s;
-  }
-
-  .pf-btn:first-child { border-right: 1px solid var(--border); }
-  .pf-btn.pass-active { background: var(--green-pale); color: var(--green); }
-  .pf-btn.fail-active { background: var(--red-pale); color: var(--red); }
-
-  .weekly-dash { width: 64px; text-align: center; font-family: var(--mono); font-size: 14px; color: #ccc; }
-
-  .feedback-toggle {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 0 10px 0;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--text-soft);
-    font-weight: 600;
-    user-select: none;
-    -webkit-user-select: none;
-    min-height: 40px;
-    touch-action: manipulation;
-  }
-
-  .ft-icon { font-size: 10px; transition: transform 0.2s; }
-  .feedback-toggle.open .ft-icon { transform: rotate(90deg); }
-
-  .feedback-area { display: none; padding-bottom: 12px; }
-  .feedback-area.visible { display: block; }
-
-  .area-row.is-pass .area-name { color: var(--green); }
-  .area-row.is-fail .area-name { color: var(--red); }
-
-  .result-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
-  }
-
-  .result-btn {
-    padding: 14px 6px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    background: white;
-    transition: all 0.15s;
-    text-align: center;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    min-height: 50px;
-  }
-
-  .result-btn.active-pass { background: var(--green-pale); border-color: var(--green); color: var(--green); }
-  .result-btn.active-attention { background: var(--amber-pale); border-color: var(--amber); color: var(--amber); }
-  .result-btn.active-fail { background: var(--red-pale); border-color: var(--red); color: var(--red); }
-
-  .submit-btn {
-    width: 100%;
-    padding: 18px;
-    background: var(--green);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-family: var(--sans);
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s;
-    touch-action: manipulation;
-    min-height: 56px;
-  }
-
-  .submit-btn:active { background: var(--green-light); }
-  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
-
-  .error-msg {
-    display: none;
-    background: var(--red-pale);
-    color: var(--red);
-    border: 1px solid #f5c6c6;
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 13px;
-    margin-bottom: 12px;
-  }
-
-  .success-screen { display: none; text-align: center; padding: 40px 20px; }
-  .success-screen.visible { display: block; }
-  .success-icon {
-    width: 64px; height: 64px;
-    background: var(--green-pale);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 28px;
-  }
-  .success-screen h2 { font-size: 20px; margin-bottom: 8px; }
-  .success-screen p { color: var(--text-soft); font-size: 14px; margin-bottom: 24px; }
-  .reset-btn {
-    padding: 14px 28px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-
-  .weekly-note {
-    font-size: 11px;
-    color: var(--text-soft);
-    font-style: italic;
-    text-align: center;
-    margin-bottom: 12px;
-    font-family: var(--mono);
-  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 80px;touch-action:manipulation;}
+  header{background:var(--green);color:white;padding:20px 24px 16px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+  header h1{font-size:18px;font-weight:700;letter-spacing:-0.3px;}
+  header p{font-size:12px;opacity:0.75;margin-top:2px;font-family:var(--mono);}
+  .container{max-width:640px;margin:0 auto;padding:20px 16px;}
+  .progress-strip{background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+  .progress-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--green-light);border-radius:3px;transition:width 0.3s;width:0%;}
+  .progress-label{font-family:var(--mono);font-size:12px;color:var(--text-soft);white-space:nowrap;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-soft);margin-bottom:14px;}
+  .field-group{margin-bottom:14px;}
+  .field-group:last-child{margin-bottom:0;}
+  label.field-label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;}
+  select,input[type="date"],textarea{width:100%;font-family:var(--sans);font-size:15px;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);appearance:none;-webkit-appearance:none;outline:none;transition:border-color 0.15s;}
+  select:focus,input:focus,textarea:focus{border-color:var(--green-light);}
+  .select-wrap{position:relative;}
+  .select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-soft);pointer-events:none;}
+  textarea{resize:vertical;min-height:70px;}
+  .section-header{display:flex;align-items:center;gap:10px;padding:10px 0 6px;border-bottom:2px solid var(--border);margin-bottom:4px;}
+  .col-daily{width:64px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-family:var(--mono);}
+  .col-weekly{width:64px;text-align:center;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--amber);font-family:var(--mono);}
+  .col-name{flex:1;}
+  .area-row{border-bottom:1px solid #f0ece4;}
+  .area-row:last-child{border-bottom:none;}
+  .area-main{display:flex;align-items:center;gap:10px;padding:14px 0;min-height:56px;}
+  .area-name{flex:1;font-size:14px;font-weight:500;line-height:1.3;}
+  .area-num-tag{font-family:var(--mono);font-size:10px;color:var(--text-soft);display:block;margin-bottom:1px;}
+  .check-cell{width:64px;display:flex;justify-content:center;align-items:center;}
+  .pf-toggle{display:flex;border:1.5px solid var(--border);border-radius:6px;overflow:hidden;height:40px;}
+  .pf-btn{width:32px;border:none;background:white;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:#bbb;user-select:none;-webkit-user-select:none;touch-action:manipulation;transition:background 0.12s,color 0.12s;}
+  .pf-btn:first-child{border-right:1px solid var(--border);}
+  .pf-btn.pass-active{background:var(--green-pale);color:var(--green);}
+  .pf-btn.fail-active{background:var(--red-pale);color:var(--red);}
+  .weekly-dash{width:64px;text-align:center;font-family:var(--mono);font-size:14px;color:#ccc;}
+  .feedback-toggle{display:flex;align-items:center;gap:6px;padding:6px 0 10px;cursor:pointer;font-size:12px;color:var(--text-soft);font-weight:600;user-select:none;-webkit-user-select:none;min-height:40px;touch-action:manipulation;}
+  .ft-icon{font-size:10px;transition:transform 0.2s;}
+  .feedback-toggle.open .ft-icon{transform:rotate(90deg);}
+  .feedback-area{display:none;padding-bottom:12px;}
+  .feedback-area.visible{display:block;}
+  .area-row.is-pass .area-name{color:var(--green);}
+  .area-row.is-fail .area-name{color:var(--red);}
+  .result-options{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .result-btn{padding:14px 6px;border:2px solid var(--border);border-radius:8px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;background:white;transition:all 0.15s;text-align:center;user-select:none;-webkit-user-select:none;touch-action:manipulation;min-height:50px;}
+  .result-btn.active-pass{background:var(--green-pale);border-color:var(--green);color:var(--green);}
+  .result-btn.active-attention{background:var(--amber-pale);border-color:var(--amber);color:var(--amber);}
+  .result-btn.active-fail{background:var(--red-pale);border-color:var(--red);color:var(--red);}
+  .submit-btn{width:100%;padding:18px;background:var(--green);color:white;border:none;border-radius:10px;font-family:var(--sans);font-size:16px;font-weight:700;cursor:pointer;transition:background 0.15s;touch-action:manipulation;min-height:56px;}
+  .submit-btn:active{background:var(--green-light);}
+  .submit-btn:disabled{background:#aaa;cursor:not-allowed;}
+  .error-msg{display:none;background:var(--red-pale);color:var(--red);border:1px solid #f5c6c6;border-radius:8px;padding:12px 14px;font-size:13px;margin-bottom:12px;}
+  .success-screen{display:none;text-align:center;padding:40px 20px;}
+  .success-screen.visible{display:block;}
+  .success-icon{width:64px;height:64px;background:var(--green-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;}
+  .success-screen h2{font-size:20px;margin-bottom:8px;}
+  .success-screen p{color:var(--text-soft);font-size:14px;margin-bottom:24px;}
+  .reset-btn{padding:14px 28px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation;}
+  .weekly-note{font-size:11px;color:var(--text-soft);font-style:italic;text-align:center;margin-bottom:12px;font-family:var(--mono);}
 </style>
 </head>
 <body>
-
 <header>
   <h1>Pressed Earth</h1>
   <p>Manager Inspection Checklist</p>
 </header>
-
 <div class="container">
 <div id="main-form">
-
   <div class="card">
     <h2>Inspection Details</h2>
     <div class="field-group">
@@ -341,12 +105,10 @@
       </div>
     </div>
   </div>
-
   <div class="progress-strip">
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="progress-label" id="progress-label">0 / 20 areas</div>
   </div>
-
   <div class="card">
     <h2>Factory Areas</h2>
     <p class="weekly-note">Weekly column — day to be confirmed</p>
@@ -357,7 +119,6 @@
     </div>
     <div id="areas-list"></div>
   </div>
-
   <div class="card">
     <h2>Overall Inspection Result</h2>
     <div class="result-options" id="result-options" style="margin-bottom:16px;">
@@ -368,12 +129,9 @@
     <label class="field-label" for="general-comments">General Comments / Follow-up Actions</label>
     <textarea id="general-comments" placeholder="Overall observations, follow-up required, issues to escalate…"></textarea>
   </div>
-
   <div class="error-msg" id="error-msg"></div>
   <button class="submit-btn" id="submit-btn">Submit Inspection</button>
-
 </div>
-
 <div class="success-screen" id="success-screen">
   <div class="success-icon">✓</div>
   <h2>Submitted</h2>
@@ -381,256 +139,167 @@
   <button class="reset-btn" id="reset-btn">New Inspection</button>
 </div>
 </div>
-
 <script>
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyOXE797bOSq2EdAVVSxfGiICddlXkDQaMBUUqInezhCfklIRCvWkx_kNtH9m_EPLcsYw/exec';
-
-const AREAS = [
-  { num: 1,  name: 'Rear Yard',                     daily: true,  weekly: true  },
-  { num: 2,  name: 'Rear Lane / Return Storage',    daily: false, weekly: true  },
-  { num: 3,  name: 'Washing Area',                  daily: true,  weekly: true  },
-  { num: 4,  name: 'Chemical Storage Corridor',     daily: true,  weekly: false },
-  { num: 5,  name: 'Mixing Room',                   daily: true,  weekly: false },
-  { num: 6,  name: 'Laundry / Toilet',              daily: true,  weekly: false },
-  { num: 7,  name: 'Packing Room',                  daily: true,  weekly: false },
-  { num: 8,  name: 'Labelling / Packaging Storage', daily: true,  weekly: false },
-  { num: 9,  name: 'Pouring Room',                  daily: true,  weekly: false },
-  { num: 10, name: 'North Juicing Room',            daily: true,  weekly: false },
-  { num: 11, name: 'South Juicing Room',            daily: true,  weekly: false },
-  { num: 12, name: 'Production Kitchen',            daily: true,  weekly: false },
-  { num: 13, name: 'North West Cool Room',          daily: true,  weekly: true  },
-  { num: 14, name: 'South West Cool Room',          daily: true,  weekly: true  },
-  { num: 15, name: 'Cool Room Roofs',               daily: false, weekly: true  },
-  { num: 16, name: 'Front Storage Racks',           daily: true,  weekly: false },
-  { num: 17, name: 'Dry Store / Staff Kitchen',     daily: true,  weekly: true  },
-  { num: 18, name: 'Loading Yard / Car Park',       daily: true,  weekly: false },
-  { num: 19, name: 'Front Workshop',                daily: true,  weekly: false },
-  { num: 20, name: 'Upper Storage / Mezzanine',     daily: true,  weekly: false },
+const SHEETS_URL='https://script.google.com/macros/s/AKfycbx3fJf4G89Zww6MGX1ZrO2DF4YreZwEugWvVSzLGB-ZgPQPD9IWocAsaTidllm5OMyQ-A/exec';
+const AREAS=[
+  {num:1,name:'Rear Yard',daily:true,weekly:true},
+  {num:2,name:'Rear Lane / Return Storage',daily:false,weekly:true},
+  {num:3,name:'Washing Area',daily:true,weekly:true},
+  {num:4,name:'Chemical Storage Corridor',daily:true,weekly:false},
+  {num:5,name:'Mixing Room',daily:true,weekly:false},
+  {num:6,name:'Laundry / Toilet',daily:true,weekly:false},
+  {num:7,name:'Packing Room',daily:true,weekly:false},
+  {num:8,name:'Labelling / Packaging Storage',daily:true,weekly:false},
+  {num:9,name:'Pouring Room',daily:true,weekly:false},
+  {num:10,name:'North Juicing Room',daily:true,weekly:false},
+  {num:11,name:'South Juicing Room',daily:true,weekly:false},
+  {num:12,name:'Production Kitchen',daily:true,weekly:false},
+  {num:13,name:'North West Cool Room',daily:true,weekly:true},
+  {num:14,name:'South West Cool Room',daily:true,weekly:true},
+  {num:15,name:'Cool Room Roofs',daily:false,weekly:true},
+  {num:16,name:'Front Storage Racks',daily:true,weekly:false},
+  {num:17,name:'Dry Store / Staff Kitchen',daily:true,weekly:true},
+  {num:18,name:'Loading Yard / Car Park',daily:true,weekly:false},
+  {num:19,name:'Front Workshop',daily:true,weekly:false},
+  {num:20,name:'Upper Storage / Mezzanine',daily:true,weekly:false},
 ];
+const state={};
+AREAS.forEach(a=>{state[a.num]={daily:null,feedback:''};});
+let selectedResult='';
 
-// State: areaNum -> { daily: 'pass'|'fail'|null, feedback: '' }
-const state = {};
-AREAS.forEach(a => { state[a.num] = { daily: null, feedback: '' }; });
-let selectedResult = '';
-
-function buildChecklist() {
-  const list = document.getElementById('areas-list');
-  list.innerHTML = '';
-
-  AREAS.forEach(a => {
-    const row = document.createElement('div');
-    row.className = 'area-row';
-    row.id = 'row-' + a.num;
-
-    // Main row
-    const main = document.createElement('div');
-    main.className = 'area-main';
-    main.innerHTML = `
-      <div class="area-name">
-        <span class="area-num-tag">Area ${a.num}</span>${a.name}
-      </div>
-      <div class="check-cell">
-        ${a.daily ? `<div class="pf-toggle">
-          <div class="pf-btn" id="pass-${a.num}" data-num="${a.num}" data-val="pass">✓</div>
-          <div class="pf-btn" id="fail-${a.num}" data-num="${a.num}" data-val="fail">✗</div>
-        </div>` : `<span style="color:#ddd;font-size:18px">—</span>`}
-      </div>
-      <div class="check-cell">
-        ${a.weekly ? `<span class="weekly-dash">—</span>` : `<span style="color:#eee;font-size:18px">·</span>`}
-      </div>
-    `;
-
-    // Feedback toggle
-    const ft = document.createElement('div');
-    ft.className = 'feedback-toggle';
-    ft.id = 'ft-' + a.num;
-    ft.dataset.num = a.num;
-    ft.innerHTML = `<span class="ft-icon">▸</span><span>Add feedback</span>`;
-
-    // Feedback area
-    const fb = document.createElement('div');
-    fb.className = 'feedback-area';
-    fb.id = 'fb-' + a.num;
-    const ta = document.createElement('textarea');
-    ta.placeholder = 'Comments / action required for ' + a.name + '…';
-    ta.rows = 2;
-    ta.style.fontSize = '13px';
-    ta.dataset.num = a.num;
+function buildChecklist(){
+  const list=document.getElementById('areas-list');
+  list.innerHTML='';
+  AREAS.forEach(a=>{
+    const row=document.createElement('div');
+    row.className='area-row';row.id='row-'+a.num;
+    const main=document.createElement('div');
+    main.className='area-main';
+    main.innerHTML=`<div class="area-name"><span class="area-num-tag">Area ${a.num}</span>${a.name}</div>
+      <div class="check-cell">${a.daily?`<div class="pf-toggle"><div class="pf-btn" id="pass-${a.num}" data-num="${a.num}" data-val="pass">✓</div><div class="pf-btn" id="fail-${a.num}" data-num="${a.num}" data-val="fail">✗</div></div>`:`<span style="color:#ddd;font-size:18px">—</span>`}</div>
+      <div class="check-cell">${a.weekly?`<span class="weekly-dash">—</span>`:`<span style="color:#eee;font-size:18px">·</span>`}</div>`;
+    const ft=document.createElement('div');
+    ft.className='feedback-toggle';ft.id='ft-'+a.num;ft.dataset.num=a.num;
+    ft.innerHTML=`<span class="ft-icon">▸</span><span>Add feedback</span>`;
+    const fb=document.createElement('div');
+    fb.className='feedback-area';fb.id='fb-'+a.num;
+    const ta=document.createElement('textarea');
+    ta.placeholder='Comments / action required for '+a.name+'…';
+    ta.rows=2;ta.style.fontSize='13px';ta.dataset.num=a.num;
     fb.appendChild(ta);
-
-    row.appendChild(main);
-    row.appendChild(ft);
-    row.appendChild(fb);
+    row.appendChild(main);row.appendChild(ft);row.appendChild(fb);
     list.appendChild(row);
-
-    // Wire up textarea
-    ta.addEventListener('input', function() {
-      state[a.num].feedback = this.value;
-    });
+    ta.addEventListener('input',function(){state[a.num].feedback=this.value;});
   });
-
-  // Wire up pass/fail buttons — delegate to list for reliability
-  list.addEventListener('touchend', function(e) {
+  list.addEventListener('touchend',function(e){
     e.preventDefault();
-    const btn = e.target.closest('.pf-btn');
-    if (btn) handlePF(parseInt(btn.dataset.num), btn.dataset.val);
-    const ft = e.target.closest('.feedback-toggle');
-    if (ft) handleFeedbackToggle(parseInt(ft.dataset.num));
+    const btn=e.target.closest('.pf-btn');if(btn)handlePF(parseInt(btn.dataset.num),btn.dataset.val);
+    const ft=e.target.closest('.feedback-toggle');if(ft)handleFeedbackToggle(parseInt(ft.dataset.num));
   });
-  list.addEventListener('click', function(e) {
-    const btn = e.target.closest('.pf-btn');
-    if (btn) handlePF(parseInt(btn.dataset.num), btn.dataset.val);
-    const ft = e.target.closest('.feedback-toggle');
-    if (ft) handleFeedbackToggle(parseInt(ft.dataset.num));
+  list.addEventListener('click',function(e){
+    const btn=e.target.closest('.pf-btn');if(btn)handlePF(parseInt(btn.dataset.num),btn.dataset.val);
+    const ft=e.target.closest('.feedback-toggle');if(ft)handleFeedbackToggle(parseInt(ft.dataset.num));
   });
 }
 
-function handlePF(num, val) {
-  const prev = state[num].daily;
-  state[num].daily = (prev === val) ? null : val;
-
-  const passBtn = document.getElementById('pass-' + num);
-  const failBtn = document.getElementById('fail-' + num);
-  const row = document.getElementById('row-' + num);
-
-  if (passBtn) passBtn.classList.remove('pass-active');
-  if (failBtn) failBtn.classList.remove('fail-active');
-  row.classList.remove('is-pass', 'is-fail');
-
-  if (state[num].daily === 'pass') {
-    if (passBtn) passBtn.classList.add('pass-active');
-    row.classList.add('is-pass');
-  } else if (state[num].daily === 'fail') {
-    if (failBtn) failBtn.classList.add('fail-active');
-    row.classList.add('is-fail');
-    // Auto open feedback on fail
-    const fb = document.getElementById('fb-' + num);
-    const ft = document.getElementById('ft-' + num);
-    if (fb && !fb.classList.contains('visible')) {
-      fb.classList.add('visible');
-      if (ft) ft.classList.add('open');
-    }
+function handlePF(num,val){
+  const prev=state[num].daily;
+  state[num].daily=(prev===val)?null:val;
+  const passBtn=document.getElementById('pass-'+num);
+  const failBtn=document.getElementById('fail-'+num);
+  const row=document.getElementById('row-'+num);
+  if(passBtn)passBtn.classList.remove('pass-active');
+  if(failBtn)failBtn.classList.remove('fail-active');
+  row.classList.remove('is-pass','is-fail');
+  if(state[num].daily==='pass'){if(passBtn)passBtn.classList.add('pass-active');row.classList.add('is-pass');}
+  else if(state[num].daily==='fail'){
+    if(failBtn)failBtn.classList.add('fail-active');row.classList.add('is-fail');
+    const fb=document.getElementById('fb-'+num);const ft=document.getElementById('ft-'+num);
+    if(fb&&!fb.classList.contains('visible')){fb.classList.add('visible');if(ft)ft.classList.add('open');}
   }
   updateProgress();
 }
 
-function handleFeedbackToggle(num) {
-  const fb = document.getElementById('fb-' + num);
-  const ft = document.getElementById('ft-' + num);
-  if (!fb || !ft) return;
-  const open = fb.classList.contains('visible');
-  fb.classList.toggle('visible', !open);
-  ft.classList.toggle('open', !open);
+function handleFeedbackToggle(num){
+  const fb=document.getElementById('fb-'+num);const ft=document.getElementById('ft-'+num);
+  if(!fb||!ft)return;
+  const open=fb.classList.contains('visible');
+  fb.classList.toggle('visible',!open);ft.classList.toggle('open',!open);
 }
 
-function updateProgress() {
-  const daily = AREAS.filter(a => a.daily);
-  const checked = daily.filter(a => state[a.num].daily !== null).length;
-  const total = daily.length;
-  const pct = total > 0 ? (checked / total) * 100 : 0;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = checked + ' / ' + total + ' areas';
+function updateProgress(){
+  const daily=AREAS.filter(a=>a.daily);
+  const checked=daily.filter(a=>state[a.num].daily!==null).length;
+  const total=daily.length;
+  const pct=total>0?(checked/total)*100:0;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-label').textContent=checked+' / '+total+' areas';
 }
 
-// Result buttons
-document.getElementById('result-options').addEventListener('touchend', function(e) {
-  e.preventDefault();
-  const btn = e.target.closest('.result-btn');
-  if (btn) selectResult(btn);
-});
-document.getElementById('result-options').addEventListener('click', function(e) {
-  const btn = e.target.closest('.result-btn');
-  if (btn) selectResult(btn);
-});
+document.getElementById('result-options').addEventListener('touchend',function(e){e.preventDefault();const btn=e.target.closest('.result-btn');if(btn)selectResult(btn);});
+document.getElementById('result-options').addEventListener('click',function(e){const btn=e.target.closest('.result-btn');if(btn)selectResult(btn);});
 
-function selectResult(btn) {
-  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active-pass','active-attention','active-fail'));
-  selectedResult = btn.dataset.val;
-  if (selectedResult === 'Pass') btn.classList.add('active-pass');
-  else if (selectedResult === 'Needs Attention') btn.classList.add('active-attention');
-  else if (selectedResult === 'Fail') btn.classList.add('active-fail');
+function selectResult(btn){
+  document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active-pass','active-attention','active-fail'));
+  selectedResult=btn.dataset.val;
+  if(selectedResult==='Pass')btn.classList.add('active-pass');
+  else if(selectedResult==='Needs Attention')btn.classList.add('active-attention');
+  else if(selectedResult==='Fail')btn.classList.add('active-fail');
 }
 
-function showError(msg) {
-  const el = document.getElementById('error-msg');
-  el.textContent = msg;
-  el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 4000);
-}
+function showError(msg){const el=document.getElementById('error-msg');el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',4000);}
 
-async function submitForm() {
-  const date = document.getElementById('insp-date').value;
-  const name = document.getElementById('insp-name').value;
-  const comments = document.getElementById('general-comments').value;
-
-  if (!date) return showError('Please enter the inspection date.');
-  if (!name) return showError('Please select your name.');
-  if (!selectedResult) return showError('Please select an overall result.');
-
-  const passed = AREAS.filter(a => state[a.num].daily === 'pass').map(a => a.name);
-  const failed = AREAS.filter(a => state[a.num].daily === 'fail').map(a => a.name);
-  const skipped = AREAS.filter(a => a.daily && state[a.num].daily === null).map(a => a.name);
-  const feedbackEntries = AREAS.filter(a => state[a.num].feedback.trim())
-    .map(a => `Area ${a.num} – ${a.name}: ${state[a.num].feedback}`).join(' | ');
-
-  const now = new Date();
-  const timestamp = now.toLocaleString('en-AU', { timeZone: 'Australia/Perth' });
-
-  const payload = {
-    type: 'inspection', timestamp, dateKey: date, inspector: name,
-    result: selectedResult,
-    passed: passed.join(', '),
-    failed: failed.join(', '),
-    skipped: skipped.join(', '),
-    areaFeedback: feedbackEntries,
-    generalComments: comments
-  };
-
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'Submitting…';
-
-  try {
-    await fetch(SHEETS_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    document.getElementById('main-form').style.display = 'none';
+async function submitForm(){
+  const date=document.getElementById('insp-date').value;
+  const name=document.getElementById('insp-name').value;
+  const comments=document.getElementById('general-comments').value;
+  if(!date)return showError('Please enter the inspection date.');
+  if(!name)return showError('Please select your name.');
+  if(!selectedResult)return showError('Please select an overall result.');
+  const passed=AREAS.filter(a=>state[a.num].daily==='pass').map(a=>a.name);
+  const failed=AREAS.filter(a=>state[a.num].daily==='fail').map(a=>a.name);
+  const skipped=AREAS.filter(a=>a.daily&&state[a.num].daily===null).map(a=>a.name);
+  const feedbackEntries=AREAS.filter(a=>state[a.num].feedback.trim()).map(a=>`Area ${a.num} – ${a.name}: ${state[a.num].feedback}`).join(' | ');
+  const now=new Date();
+  const timestamp=now.toLocaleString('en-AU',{timeZone:'Australia/Perth'});
+  const payload={type:'inspection',timestamp,dateKey:date,inspector:name,result:selectedResult,passed:passed.join(', '),failed:failed.join(', '),skipped:skipped.join(', '),areaFeedback:feedbackEntries,generalComments:comments};
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.textContent='Submitting…';
+  try{
+    await fetch(SHEETS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    document.getElementById('main-form').style.display='none';
     document.getElementById('success-screen').classList.add('visible');
-  } catch(err) {
+  }catch(err){
     showError('Submission failed. Check connection and try again.');
-    btn.disabled = false;
-    btn.textContent = 'Submit Inspection';
+    btn.disabled=false;btn.textContent='Submit Inspection';
   }
 }
 
-function resetForm() {
-  document.getElementById('insp-date').value = today;
-  document.getElementById('insp-name').value = '';
-  document.getElementById('general-comments').value = '';
-  AREAS.forEach(a => { state[a.num] = { daily: null, feedback: '' }; });
-  selectedResult = '';
-  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active-pass','active-attention','active-fail'));
-  document.getElementById('main-form').style.display = 'block';
+function resetForm(){
+  document.getElementById('insp-date').value=today;
+  document.getElementById('insp-name').value='';
+  document.getElementById('general-comments').value='';
+  AREAS.forEach(a=>{state[a.num]={daily:null,feedback:''};});
+  selectedResult='';
+  document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active-pass','active-attention','active-fail'));
+  document.getElementById('main-form').style.display='block';
   document.getElementById('success-screen').classList.remove('visible');
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = false;
-  btn.textContent = 'Submit Inspection';
-  buildChecklist();
-  updateProgress();
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=false;btn.textContent='Submit Inspection';
+  buildChecklist();updateProgress();
 }
 
-document.getElementById('submit-btn').addEventListener('touchend', function(e) { e.preventDefault(); submitForm(); });
-document.getElementById('submit-btn').addEventListener('click', submitForm);
-document.getElementById('reset-btn').addEventListener('touchend', function(e) { e.preventDefault(); resetForm(); });
-document.getElementById('reset-btn').addEventListener('click', resetForm);
+document.getElementById('submit-btn').addEventListener('touchend',function(e){e.preventDefault();submitForm();});
+document.getElementById('submit-btn').addEventListener('click',submitForm);
+document.getElementById('reset-btn').addEventListener('touchend',function(e){e.preventDefault();resetForm();});
+document.getElementById('reset-btn').addEventListener('click',resetForm);
 
-const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Australia/Perth' });
-document.getElementById('insp-date').value = today;
+// Disable PWA install prompt
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();});
 
-buildChecklist();
-updateProgress();
+const today=new Date().toLocaleDateString('en-CA',{timeZone:'Australia/Perth'});
+document.getElementById('insp-date').value=today;
+buildChecklist();updateProgress();
 </script>
 </body>
 </html>

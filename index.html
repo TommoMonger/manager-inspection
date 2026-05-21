@@ -24,7 +24,7 @@
     --sans: 'DM Sans', sans-serif;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
     font-family: var(--sans);
@@ -32,6 +32,7 @@
     color: var(--text);
     min-height: 100vh;
     padding: 0 0 80px 0;
+    touch-action: manipulation;
   }
 
   header {
@@ -49,7 +50,6 @@
 
   .container { max-width: 640px; margin: 0 auto; padding: 20px 16px; }
 
-  /* Progress strip */
   .progress-strip {
     background: white;
     border: 1px solid var(--border);
@@ -65,7 +65,6 @@
   .progress-fill { height: 100%; background: var(--green-light); border-radius: 3px; transition: width 0.3s; width: 0%; }
   .progress-label { font-family: var(--mono); font-size: 12px; color: var(--text-soft); white-space: nowrap; }
 
-  /* Cards */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -86,14 +85,9 @@
   .field-group { margin-bottom: 14px; }
   .field-group:last-child { margin-bottom: 0; }
 
-  label.field-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
+  label.field-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
 
-  select, input[type="text"], input[type="date"], textarea {
+  select, input[type="date"], textarea {
     width: 100%;
     font-family: var(--sans);
     font-size: 15px;
@@ -122,7 +116,6 @@
 
   textarea { resize: vertical; min-height: 70px; }
 
-  /* Section header */
   .section-header {
     display: flex;
     align-items: center;
@@ -132,30 +125,19 @@
     margin-bottom: 4px;
   }
 
-  .section-header-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-soft);
-  }
-
-  .col-daily { width: 56px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--green); font-family: var(--mono); }
-  .col-weekly { width: 56px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--amber); font-family: var(--mono); }
+  .col-daily { width: 64px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--green); font-family: var(--mono); }
+  .col-weekly { width: 64px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--amber); font-family: var(--mono); }
   .col-name { flex: 1; }
 
-  /* Area rows */
-  .area-row {
-    border-bottom: 1px solid #f0ece4;
-  }
+  .area-row { border-bottom: 1px solid #f0ece4; }
   .area-row:last-child { border-bottom: none; }
 
   .area-main {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 0 10px;
-    cursor: pointer;
+    padding: 14px 0;
+    min-height: 56px;
   }
 
   .area-name {
@@ -173,77 +155,69 @@
     margin-bottom: 1px;
   }
 
-  /* Pass/Fail toggles */
   .check-cell {
-    width: 56px;
+    width: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  /* Pass/Fail as two separate tap targets */
   .pf-toggle {
     display: flex;
     border: 1.5px solid var(--border);
     border-radius: 6px;
     overflow: hidden;
-    height: 32px;
+    height: 40px;
   }
 
   .pf-btn {
-    width: 28px;
+    width: 32px;
     border: none;
     background: white;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.12s, color 0.12s;
     color: #bbb;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.12s, color 0.12s;
   }
 
   .pf-btn:first-child { border-right: 1px solid var(--border); }
-
   .pf-btn.pass-active { background: var(--green-pale); color: var(--green); }
   .pf-btn.fail-active { background: var(--red-pale); color: var(--red); }
 
-  /* Weekly cell — just a dash for now */
-  .weekly-dash {
-    width: 56px;
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 14px;
-    color: #ccc;
-  }
+  .weekly-dash { width: 64px; text-align: center; font-family: var(--mono); font-size: 14px; color: #ccc; }
 
-  /* Feedback expand */
   .feedback-toggle {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 0 0 10px 0;
+    padding: 6px 0 10px 0;
     cursor: pointer;
     font-size: 12px;
     color: var(--text-soft);
     font-weight: 600;
     user-select: none;
+    -webkit-user-select: none;
+    min-height: 40px;
+    touch-action: manipulation;
   }
 
-  .feedback-toggle .ft-icon { font-size: 10px; transition: transform 0.2s; }
+  .ft-icon { font-size: 10px; transition: transform 0.2s; }
   .feedback-toggle.open .ft-icon { transform: rotate(90deg); }
 
-  .feedback-area {
-    display: none;
-    padding-bottom: 12px;
-  }
-
+  .feedback-area { display: none; padding-bottom: 12px; }
   .feedback-area.visible { display: block; }
 
-  /* Result badge on area when pass/fail set */
   .area-row.is-pass .area-name { color: var(--green); }
   .area-row.is-fail .area-name { color: var(--red); }
 
-  /* Overall result */
   .result-options {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -251,7 +225,7 @@
   }
 
   .result-btn {
-    padding: 10px 6px;
+    padding: 14px 6px;
     border: 2px solid var(--border);
     border-radius: 8px;
     font-family: var(--sans);
@@ -261,16 +235,19 @@
     background: white;
     transition: all 0.15s;
     text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    min-height: 50px;
   }
 
-  .result-btn[data-val="Pass"].active { background: var(--green-pale); border-color: var(--green); color: var(--green); }
-  .result-btn[data-val="Needs Attention"].active { background: var(--amber-pale); border-color: var(--amber); color: var(--amber); }
-  .result-btn[data-val="Fail"].active { background: var(--red-pale); border-color: var(--red); color: var(--red); }
+  .result-btn.active-pass { background: var(--green-pale); border-color: var(--green); color: var(--green); }
+  .result-btn.active-attention { background: var(--amber-pale); border-color: var(--amber); color: var(--amber); }
+  .result-btn.active-fail { background: var(--red-pale); border-color: var(--red); color: var(--red); }
 
-  /* Submit */
   .submit-btn {
     width: 100%;
-    padding: 16px;
+    padding: 18px;
     background: var(--green);
     color: white;
     border: none;
@@ -280,9 +257,11 @@
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s;
+    touch-action: manipulation;
+    min-height: 56px;
   }
 
-  .submit-btn:hover { background: var(--green-light); }
+  .submit-btn:active { background: var(--green-light); }
   .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
 
   .error-msg {
@@ -296,7 +275,6 @@
     margin-bottom: 12px;
   }
 
-  /* Success */
   .success-screen { display: none; text-align: center; padding: 40px 20px; }
   .success-screen.visible { display: block; }
   .success-icon {
@@ -310,7 +288,7 @@
   .success-screen h2 { font-size: 20px; margin-bottom: 8px; }
   .success-screen p { color: var(--text-soft); font-size: 14px; margin-bottom: 24px; }
   .reset-btn {
-    padding: 12px 28px;
+    padding: 14px 28px;
     background: var(--bg);
     border: 1.5px solid var(--border);
     border-radius: 8px;
@@ -318,6 +296,7 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    touch-action: manipulation;
   }
 
   .weekly-note {
@@ -340,7 +319,6 @@
 <div class="container">
 <div id="main-form">
 
-  <!-- Inspector details -->
   <div class="card">
     <h2>Inspection Details</h2>
     <div class="field-group">
@@ -363,31 +341,25 @@
     </div>
   </div>
 
-  <!-- Progress -->
   <div class="progress-strip">
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="progress-label" id="progress-label">0 / 20 areas</div>
   </div>
 
-  <!-- Checklist -->
   <div class="card">
     <h2>Factory Areas</h2>
-    <p class="weekly-note">Weekly column — leave blank, day to be confirmed</p>
-
-    <!-- Column headers -->
+    <p class="weekly-note">Weekly column — day to be confirmed</p>
     <div class="section-header">
       <span class="col-name"></span>
       <span class="col-daily">Daily</span>
       <span class="col-weekly">Weekly</span>
     </div>
-
     <div id="areas-list"></div>
   </div>
 
-  <!-- Overall result -->
   <div class="card">
     <h2>Overall Inspection Result</h2>
-    <div class="result-options" style="margin-bottom:16px;">
+    <div class="result-options" id="result-options" style="margin-bottom:16px;">
       <button class="result-btn" data-val="Pass">✓ Pass</button>
       <button class="result-btn" data-val="Needs Attention">⚠ Attention</button>
       <button class="result-btn" data-val="Fail">✗ Fail</button>
@@ -397,7 +369,7 @@
   </div>
 
   <div class="error-msg" id="error-msg"></div>
-  <button class="submit-btn" onclick="submitForm()">Submit Inspection</button>
+  <button class="submit-btn" id="submit-btn">Submit Inspection</button>
 
 </div>
 
@@ -405,121 +377,149 @@
   <div class="success-icon">✓</div>
   <h2>Submitted</h2>
   <p>Inspection record saved.</p>
-  <button class="reset-btn" onclick="resetForm()">New Inspection</button>
+  <button class="reset-btn" id="reset-btn">New Inspection</button>
 </div>
 </div>
 
 <script>
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx3fJf4G89Zww6MGX1ZrO2DF4YreZwEugWvVSzLGB-ZgPQPD9IWocAsaTidllm5OMyQ-A/exec';
 
-// daily: true = has daily check; weekly: true = has weekly check
 const AREAS = [
-  { num: 1,  name: 'Rear Yard',                    daily: true,  weekly: true  },
-  { num: 2,  name: 'Rear Lane / Return Storage',   daily: false, weekly: true  },
-  { num: 3,  name: 'Washing Area',                 daily: true,  weekly: true  },
-  { num: 4,  name: 'Chemical Storage Corridor',    daily: true,  weekly: false },
-  { num: 5,  name: 'Mixing Room',                  daily: true,  weekly: false },
-  { num: 6,  name: 'Laundry / Toilet',             daily: true,  weekly: false },
-  { num: 7,  name: 'Packing Room',                 daily: true,  weekly: false },
-  { num: 8,  name: 'Labelling / Packaging Storage',daily: true,  weekly: false },
-  { num: 9,  name: 'Pouring Room',                 daily: true,  weekly: false },
-  { num: 10, name: 'North Juicing Room',           daily: true,  weekly: false },
-  { num: 11, name: 'South Juicing Room',           daily: true,  weekly: false },
-  { num: 12, name: 'Production Kitchen',           daily: true,  weekly: false },
-  { num: 13, name: 'North West Cool Room',         daily: true,  weekly: true  },
-  { num: 14, name: 'South West Cool Room',         daily: true,  weekly: true  },
-  { num: 15, name: 'Cool Room Roofs',              daily: false, weekly: true  },
-  { num: 16, name: 'Front Storage Racks',          daily: true,  weekly: false },
-  { num: 17, name: 'Dry Store / Staff Kitchen',    daily: true,  weekly: true  },
-  { num: 18, name: 'Loading Yard / Car Park',      daily: true,  weekly: false },
-  { num: 19, name: 'Front Workshop',               daily: true,  weekly: false },
-  { num: 20, name: 'Upper Storage / Mezzanine',    daily: true,  weekly: false },
+  { num: 1,  name: 'Rear Yard',                     daily: true,  weekly: true  },
+  { num: 2,  name: 'Rear Lane / Return Storage',    daily: false, weekly: true  },
+  { num: 3,  name: 'Washing Area',                  daily: true,  weekly: true  },
+  { num: 4,  name: 'Chemical Storage Corridor',     daily: true,  weekly: false },
+  { num: 5,  name: 'Mixing Room',                   daily: true,  weekly: false },
+  { num: 6,  name: 'Laundry / Toilet',              daily: true,  weekly: false },
+  { num: 7,  name: 'Packing Room',                  daily: true,  weekly: false },
+  { num: 8,  name: 'Labelling / Packaging Storage', daily: true,  weekly: false },
+  { num: 9,  name: 'Pouring Room',                  daily: true,  weekly: false },
+  { num: 10, name: 'North Juicing Room',            daily: true,  weekly: false },
+  { num: 11, name: 'South Juicing Room',            daily: true,  weekly: false },
+  { num: 12, name: 'Production Kitchen',            daily: true,  weekly: false },
+  { num: 13, name: 'North West Cool Room',          daily: true,  weekly: true  },
+  { num: 14, name: 'South West Cool Room',          daily: true,  weekly: true  },
+  { num: 15, name: 'Cool Room Roofs',               daily: false, weekly: true  },
+  { num: 16, name: 'Front Storage Racks',           daily: true,  weekly: false },
+  { num: 17, name: 'Dry Store / Staff Kitchen',     daily: true,  weekly: true  },
+  { num: 18, name: 'Loading Yard / Car Park',       daily: true,  weekly: false },
+  { num: 19, name: 'Front Workshop',                daily: true,  weekly: false },
+  { num: 20, name: 'Upper Storage / Mezzanine',     daily: true,  weekly: false },
 ];
 
-// State: { areaNum: { daily: 'pass'|'fail'|null, feedback: '' } }
+// State: areaNum -> { daily: 'pass'|'fail'|null, feedback: '' }
 const state = {};
 AREAS.forEach(a => { state[a.num] = { daily: null, feedback: '' }; });
-
 let selectedResult = '';
 
 function buildChecklist() {
   const list = document.getElementById('areas-list');
-  list.innerHTML = AREAS.map(a => `
-    <div class="area-row" id="row-${a.num}">
-      <div class="area-main">
-        <div class="area-name">
-          <span class="area-num-tag">Area ${a.num}</span>
-          ${a.name}
-        </div>
-        <!-- Daily pass/fail -->
-        <div class="check-cell">
-          ${a.daily ? `
-            <div class="pf-toggle">
-              <button class="pf-btn" id="pass-${a.num}" title="Pass" onclick="setResult(${a.num}, 'pass')">✓</button>
-              <button class="pf-btn" id="fail-${a.num}" title="Fail" onclick="setResult(${a.num}, 'fail')">✗</button>
-            </div>` : `<span style="color:#ddd;font-size:18px;">—</span>`}
-        </div>
-        <!-- Weekly placeholder -->
-        <div class="check-cell">
-          ${a.weekly ? `<span class="weekly-dash">—</span>` : `<span style="color:#eee;font-size:18px;">·</span>`}
-        </div>
+  list.innerHTML = '';
+
+  AREAS.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'area-row';
+    row.id = 'row-' + a.num;
+
+    // Main row
+    const main = document.createElement('div');
+    main.className = 'area-main';
+    main.innerHTML = `
+      <div class="area-name">
+        <span class="area-num-tag">Area ${a.num}</span>${a.name}
       </div>
-      <!-- Feedback toggle (always available) -->
-      <div class="feedback-toggle" id="ft-${a.num}" onclick="toggleFeedback(${a.num})">
-        <span class="ft-icon">▸</span>
-        <span>Add feedback</span>
+      <div class="check-cell">
+        ${a.daily ? `<div class="pf-toggle">
+          <div class="pf-btn" id="pass-${a.num}" data-num="${a.num}" data-val="pass">✓</div>
+          <div class="pf-btn" id="fail-${a.num}" data-num="${a.num}" data-val="fail">✗</div>
+        </div>` : `<span style="color:#ddd;font-size:18px">—</span>`}
       </div>
-      <div class="feedback-area" id="fb-${a.num}">
-        <textarea
-          placeholder="Comments / action required for ${a.name}…"
-          oninput="saveFeedback(${a.num}, this.value)"
-          rows="2"
-          style="font-size:13px;"
-        ></textarea>
+      <div class="check-cell">
+        ${a.weekly ? `<span class="weekly-dash">—</span>` : `<span style="color:#eee;font-size:18px">·</span>`}
       </div>
-    </div>
-  `).join('');
+    `;
+
+    // Feedback toggle
+    const ft = document.createElement('div');
+    ft.className = 'feedback-toggle';
+    ft.id = 'ft-' + a.num;
+    ft.dataset.num = a.num;
+    ft.innerHTML = `<span class="ft-icon">▸</span><span>Add feedback</span>`;
+
+    // Feedback area
+    const fb = document.createElement('div');
+    fb.className = 'feedback-area';
+    fb.id = 'fb-' + a.num;
+    const ta = document.createElement('textarea');
+    ta.placeholder = 'Comments / action required for ' + a.name + '…';
+    ta.rows = 2;
+    ta.style.fontSize = '13px';
+    ta.dataset.num = a.num;
+    fb.appendChild(ta);
+
+    row.appendChild(main);
+    row.appendChild(ft);
+    row.appendChild(fb);
+    list.appendChild(row);
+
+    // Wire up textarea
+    ta.addEventListener('input', function() {
+      state[a.num].feedback = this.value;
+    });
+  });
+
+  // Wire up pass/fail buttons — delegate to list for reliability
+  list.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    const btn = e.target.closest('.pf-btn');
+    if (btn) handlePF(parseInt(btn.dataset.num), btn.dataset.val);
+    const ft = e.target.closest('.feedback-toggle');
+    if (ft) handleFeedbackToggle(parseInt(ft.dataset.num));
+  });
+  list.addEventListener('click', function(e) {
+    const btn = e.target.closest('.pf-btn');
+    if (btn) handlePF(parseInt(btn.dataset.num), btn.dataset.val);
+    const ft = e.target.closest('.feedback-toggle');
+    if (ft) handleFeedbackToggle(parseInt(ft.dataset.num));
+  });
 }
 
-function setResult(num, val) {
+function handlePF(num, val) {
   const prev = state[num].daily;
-  state[num].daily = (prev === val) ? null : val; // toggle off if same
+  state[num].daily = (prev === val) ? null : val;
 
   const passBtn = document.getElementById('pass-' + num);
   const failBtn = document.getElementById('fail-' + num);
   const row = document.getElementById('row-' + num);
 
-  passBtn.classList.remove('pass-active');
-  failBtn.classList.remove('fail-active');
+  if (passBtn) passBtn.classList.remove('pass-active');
+  if (failBtn) failBtn.classList.remove('fail-active');
   row.classList.remove('is-pass', 'is-fail');
 
   if (state[num].daily === 'pass') {
-    passBtn.classList.add('pass-active');
+    if (passBtn) passBtn.classList.add('pass-active');
     row.classList.add('is-pass');
   } else if (state[num].daily === 'fail') {
-    failBtn.classList.add('fail-active');
+    if (failBtn) failBtn.classList.add('fail-active');
     row.classList.add('is-fail');
-    // Auto-open feedback on fail
+    // Auto open feedback on fail
     const fb = document.getElementById('fb-' + num);
     const ft = document.getElementById('ft-' + num);
-    if (!fb.classList.contains('visible')) {
+    if (fb && !fb.classList.contains('visible')) {
       fb.classList.add('visible');
-      ft.classList.add('open');
+      if (ft) ft.classList.add('open');
     }
   }
   updateProgress();
 }
 
-function toggleFeedback(num) {
+function handleFeedbackToggle(num) {
   const fb = document.getElementById('fb-' + num);
   const ft = document.getElementById('ft-' + num);
+  if (!fb || !ft) return;
   const open = fb.classList.contains('visible');
   fb.classList.toggle('visible', !open);
   ft.classList.toggle('open', !open);
-}
-
-function saveFeedback(num, val) {
-  state[num].feedback = val;
 }
 
 function updateProgress() {
@@ -531,13 +531,24 @@ function updateProgress() {
   document.getElementById('progress-label').textContent = checked + ' / ' + total + ' areas';
 }
 
-document.querySelectorAll('.result-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    selectedResult = this.dataset.val;
-  });
+// Result buttons
+document.getElementById('result-options').addEventListener('touchend', function(e) {
+  e.preventDefault();
+  const btn = e.target.closest('.result-btn');
+  if (btn) selectResult(btn);
 });
+document.getElementById('result-options').addEventListener('click', function(e) {
+  const btn = e.target.closest('.result-btn');
+  if (btn) selectResult(btn);
+});
+
+function selectResult(btn) {
+  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active-pass','active-attention','active-fail'));
+  selectedResult = btn.dataset.val;
+  if (selectedResult === 'Pass') btn.classList.add('active-pass');
+  else if (selectedResult === 'Needs Attention') btn.classList.add('active-attention');
+  else if (selectedResult === 'Fail') btn.classList.add('active-fail');
+}
 
 function showError(msg) {
   const el = document.getElementById('error-msg');
@@ -555,31 +566,17 @@ async function submitForm() {
   if (!name) return showError('Please select your name.');
   if (!selectedResult) return showError('Please select an overall result.');
 
-  // Build area results
-  const areaResults = AREAS.map(a => ({
-    num: a.num,
-    name: a.name,
-    daily: state[a.num].daily,
-    feedback: state[a.num].feedback
-  }));
-
-  const passed = areaResults.filter(a => a.daily === 'pass').map(a => a.name);
-  const failed = areaResults.filter(a => a.daily === 'fail').map(a => a.name);
-  const skipped = areaResults.filter(a => a.daily === null && AREAS.find(x => x.num === a.num).daily).map(a => a.name);
-
-  const feedbackEntries = areaResults
-    .filter(a => a.feedback.trim())
-    .map(a => `Area ${a.num} – ${a.name}: ${a.feedback}`)
-    .join(' | ');
+  const passed = AREAS.filter(a => state[a.num].daily === 'pass').map(a => a.name);
+  const failed = AREAS.filter(a => state[a.num].daily === 'fail').map(a => a.name);
+  const skipped = AREAS.filter(a => a.daily && state[a.num].daily === null).map(a => a.name);
+  const feedbackEntries = AREAS.filter(a => state[a.num].feedback.trim())
+    .map(a => `Area ${a.num} – ${a.name}: ${state[a.num].feedback}`).join(' | ');
 
   const now = new Date();
   const timestamp = now.toLocaleString('en-AU', { timeZone: 'Australia/Perth' });
 
   const payload = {
-    type: 'inspection',
-    timestamp,
-    dateKey: date,
-    inspector: name,
+    type: 'inspection', timestamp, dateKey: date, inspector: name,
     result: selectedResult,
     passed: passed.join(', '),
     failed: failed.join(', '),
@@ -588,14 +585,13 @@ async function submitForm() {
     generalComments: comments
   };
 
-  const btn = document.querySelector('.submit-btn');
+  const btn = document.getElementById('submit-btn');
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
   try {
     await fetch(SHEETS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
@@ -609,22 +605,27 @@ async function submitForm() {
 }
 
 function resetForm() {
-  document.getElementById('insp-date').value = '';
+  document.getElementById('insp-date').value = today;
   document.getElementById('insp-name').value = '';
   document.getElementById('general-comments').value = '';
   AREAS.forEach(a => { state[a.num] = { daily: null, feedback: '' }; });
   selectedResult = '';
-  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active-pass','active-attention','active-fail'));
   document.getElementById('main-form').style.display = 'block';
   document.getElementById('success-screen').classList.remove('visible');
-  document.querySelector('.submit-btn').disabled = false;
-  document.querySelector('.submit-btn').textContent = 'Submit Inspection';
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = false;
+  btn.textContent = 'Submit Inspection';
   buildChecklist();
   updateProgress();
 }
 
-// Set today's date by default
-const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Australia/Perth' }); // yyyy-mm-dd
+document.getElementById('submit-btn').addEventListener('touchend', function(e) { e.preventDefault(); submitForm(); });
+document.getElementById('submit-btn').addEventListener('click', submitForm);
+document.getElementById('reset-btn').addEventListener('touchend', function(e) { e.preventDefault(); resetForm(); });
+document.getElementById('reset-btn').addEventListener('click', resetForm);
+
+const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Australia/Perth' });
 document.getElementById('insp-date').value = today;
 
 buildChecklist();
